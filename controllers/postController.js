@@ -1,8 +1,8 @@
 const Post = require('../models/Post');
-///lay bai post
+// lay tat ca bai post
 exports.getPosts = async (req,res,next)=>{
     try {
-        const posts = await Post.find({}).populate('author','name').select('content createAt');
+        const posts = await Post.find();
         res.status(200).json({
             status: 'success',
             results: posts.length,
@@ -14,19 +14,30 @@ exports.getPosts = async (req,res,next)=>{
 }
 
 //tao bai post
-exports.createPost = async (req,res,next)=>{
-    try {
-        const {userId} = req.user;
+exports.createPost = async (req, res, next) => {
+  try {
+    const { title, content, author, attachment } = req.body;
 
-        const post = await Post.create({...req.body,author:userId});
-        res.status(200).json({
-            status: 'success',
-            data: {post}
-        })
-      } catch (error) {
-        next (error);
-     }
-}
+    // Tạo một instance của Post model
+    const newPost = new Post({
+      title: title,
+      content: content,
+      author: author,
+      attachment: attachment
+    });
+
+    // Lưu bài Post mới vào cơ sở dữ liệu
+    const savedPost = await newPost.save();
+
+    res.status(200).json({
+      status: 'success',
+      data: { post: savedPost }
+    });
+  } catch (error) { 
+    console.log("đá lọt vào đây");
+    next(error);
+  }
+};
 
 //update post
 exports.updatePost = async (req,res,next)=>{

@@ -13,11 +13,14 @@ const postSchema = new mongoose.Schema({
     },
 
     author:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
-    },
+        type: String,
+        required: [true, 'Post must have author'],
+        trim: true
+    }, 
 
-    attachment: String,
+    attachment:{
+        type: String,
+    },
 
     likeCount: {
         type: Number,

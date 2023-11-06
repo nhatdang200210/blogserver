@@ -1,19 +1,25 @@
 const jwt = require('jsonwebtoken');
 
-exports.verifyToken = (req,res,next)=>{
+exports.verifyToken = (req, res, next) => {
+  const authorizationHeader = req.header('authorization');
 
-    const Authorization = req.header('authorization');
+  if (!authorizationHeader) {
+    return res.status(401).json({
+      status: 'fail',
+      message: 'No token provided',
+    });
+  }
 
-    if(!Authorization){
-        //err
-    }
+  const token = authorizationHeader.replace('Bearer ', '');
 
-    //GET TOKEN
-    const token = Authorization.replace('Bearer ','')
-
-    //verify token
-    const {userId} = jwt.verify(token, process.env.APP_SECRET);
-
-    req.user = {userId};
+  try {
+    const { userId } = jwt.verify(token, process.env.APP_SECRET);
+    req.user = { userId };
     next();
-}
+  } catch (error) {
+    return res.status(401).json({
+      status: 'fail',
+      message: 'Invalid token',
+    });
+  }
+};

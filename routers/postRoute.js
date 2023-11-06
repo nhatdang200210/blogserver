@@ -5,7 +5,7 @@ const {getPosts, createPost, updatePost, deletePost} = require( '../controllers/
 const {verifyToken} = require('../middlewares/verifyToken.js')
 const Router = express.Router();
 
-Router.route('/').get(getPosts).post(verifyToken, createPost);
+Router.route('/').get(getPosts).post(createPost);
 
 Router.route('/:posId').put(verifyToken, updatePost).delete(verifyToken, deletePost);
 
