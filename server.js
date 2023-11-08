@@ -5,12 +5,13 @@ const mongoose = require('mongoose');
 
 //import Router
 const authRoute = require('./routers/authRoute')
-const postRoute = require('./routers/postRoute');
+const postRoute = require('./routers/postRoute'); 
+const newRoute = require('./routers/newRoute');
+
 
 //import Error Handler
 const { errorHandler } = require('./middlewares/errHandler');
-
-const { register } = require('./controllers/authController')
+// const { register } = require('./controllers/authController')
 
 const app = express();
 //cors
@@ -23,7 +24,8 @@ app.use(express.json());
 
 //Mount the route
 app.use('/api/v1/auth', authRoute);
-app.use('/api/v1/posts', postRoute);
+app.use('/api/v1/posts', postRoute); 
+app.use('/api/v1/news', newRoute);
 
 
 // unhandler route
