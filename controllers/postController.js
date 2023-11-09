@@ -77,5 +77,3 @@ exports.deletePost = async (req, res, next) => {
     next(error);
   }
 };
-
-module.exports = { deletePost };
