@@ -16,7 +16,7 @@ exports.getPosts = async (req,res,next)=>{
 //tao bai post
 exports.createPost = async (req, res, next) => {
   try {
-    const { title, content, author, attachment } = req.body;
+    const { content, author, attachment } = req.body;
 
     // Tạo một instance của Post model
     const newPost = new Post({
@@ -54,17 +54,28 @@ exports.updatePost = async (req,res,next)=>{
      }
 }
 
-//delete post
-exports.deletePost = async (req,res,next)=>{
-    try {
-        const {postId} = req.params;
 
-        await Post.findByIdAndUpdate(postId);
-        res.status(200).json({
-            status: 'success',
-            message: 'Post has been deleted'
-        })
-      } catch (error) {
-        next(error);
-     }
-}
+
+// Hàm xóa bài post
+exports.deletePost = async (req, res, next) => {
+  try {
+    const postId = req.params.postId;
+
+    // Kiểm tra xem bài post tồn tại không
+    const existingPost = await Post.findById(postId);
+    if (!existingPost) {
+      const error = new Error('Bài post không tồn tại');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    // Xóa bài post từ cơ sở dữ liệu
+    await Post.findByIdAndRemove(postId);
+
+    res.status(200).json({ message: 'Bài post đã được xóa thành công' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { deletePost };

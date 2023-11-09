@@ -39,6 +39,7 @@ app.all('*', (req, res, next) => {
 app.use(errorHandler);
 const URI = 'mongodb+srv://admin:nhat2002@atlascluster.x2xu4rl.mongodb.net/?retryWrites=true&w=majority';
 
+
 const PORT = 3001;
 
 
