@@ -22,6 +22,11 @@ const postSchema = new mongoose.Schema({
         type: String,
     },
 
+    image:{
+        type: String,
+        required: true,
+    },
+
     likeCount: {
         type: Number,
         default: 0,
