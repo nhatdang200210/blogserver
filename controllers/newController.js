@@ -39,32 +39,53 @@ exports.createNew = async (req, res, next) => {
     }
   };
 
-//update post
-exports.updatePost = async (req,res,next)=>{
-    try {
-        const {postId} = req.params;
+//update new
+exports.updateNew = async (req, res, next) => {
+  try {
+    const newId = req.params.newId;
+    const updatedData = req.body;
 
-        const post = await Post.findByIdAndUpdate(postId,{...req.body},{new: true, runValidator: true});
-        res.status(200).json({
-            status: 'success',
-            data: {post}
-        })
-      } catch (error) {
-        next(error);
-     }
-}
+    const updatedNew = await News.findByIdAndUpdate(newId, updatedData, {
+      new: true, // Trả về bài tin đã được cập nhật
+      runValidators: true, // Chạy các validators của model News
+    });
 
-//delete post
-exports.deletePost = async (req,res,next)=>{
-    try {
-        const {postId} = req.params;
+    if (!updatedNew) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Không tìm thấy bài tin với ID đã cho',
+      });
+    }
 
-        await Post.findByIdAndUpdate(postId);
-        res.status(200).json({
-            status: 'success',
-            message: 'Post has been deleted'
-        })
-      } catch (error) {
-        next(error);
-     }
-}
+    res.status(200).json({
+      status: 'success',
+      data: {
+        new: updatedNew,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
+};
+
+exports.deleteNew = async (req, res, next) => {
+  try {
+    const newId = req.params.newId;
+
+    const deletedNew = await News.findByIdAndDelete(newId);
+
+    if (!deletedNew) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Không tìm thấy bài tin với ID đã cho',
+      });
+    }
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Xóa bài tin thành công',
+    });
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
+};
