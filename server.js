@@ -6,7 +6,8 @@ const mongoose = require('mongoose');
 //import Router
 const authRoute = require('./routers/authRoute')
 const postRoute = require('./routers/postRoute'); 
-const newRoute = require('./routers/newRoute');
+const newRoute = require('./routers/newRoute'); 
+const commentRoute = require('./routers/commentRoute');
 
 
 //import Error Handler
@@ -26,6 +27,7 @@ app.use(express.json());
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1/posts', postRoute); 
 app.use('/api/v1/news', newRoute);
+app.use('/api/v1/comment', commentRoute);
 
 
 // unhandler route
