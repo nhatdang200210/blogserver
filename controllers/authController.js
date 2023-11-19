@@ -3,8 +3,6 @@ const jwt =  require ("jsonwebtoken");
 const bcrypt = require('bcryptjs');
 
 module.exports.register = async (req,res,next)=>{
-    console.log(req.body);
-    console.log("-------from register------");
         try {
             const test = await User.findOne({email: req.body.email});
     
@@ -26,8 +24,6 @@ module.exports.register = async (req,res,next)=>{
 }
 
 module.exports.login = async (req, res, next) => {
-    console.log(req.body);
-    console.log("------email- password-------");
     try {
         const user = await User.findOne({ email: req.body.email });
 
@@ -38,8 +34,6 @@ module.exports.login = async (req, res, next) => {
         }
 
         if (bcrypt.compareSync(req.body.password, user.password)) {
-            console.log('=++++++++');
-            console.log(user);
             res.status(200).json({ name: user.name, role: user.role });
         } else {
             const err = new Error('Password is not correct');

@@ -63,7 +63,6 @@ exports.getAllCommentsByPost = async (req, res, next) => {
 
 exports.deleteComment = async (req, res, next) => {
   try { 
-    console.log("Da lot vao day");
     const commentId = req.params.commentId; // Lấy commentId từ URL hoặc từ body request
 
     const comment = await Comment.findById(commentId);

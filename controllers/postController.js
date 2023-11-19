@@ -34,7 +34,6 @@ exports.createPost = async (req, res, next) => {
       data: { post: savedPost }
     });
   } catch (error) { 
-    console.log("đã lọt vào đây"); 
     next(error);
   }
 };
